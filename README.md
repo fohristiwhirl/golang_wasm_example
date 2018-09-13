@@ -4,7 +4,7 @@ To compile:
 
 * Set env variable GOOS to `js`
 * Set env variable GOARCH to `wasm`
-* Build as main.wasm
+* Build as `main.wasm`
 
 To run:
 
