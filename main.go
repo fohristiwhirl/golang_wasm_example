@@ -47,7 +47,7 @@ func main() {
 		e := args[0]
 		x := e.Get("clientX").Float()
 		y := e.Get("clientY").Float()
-		fmt.Printf("Mouse click at %v, %v\n", x, y)
+		fmt.Printf("Mouse click at %v, %v\n", x, y)		// coords are for whole page, not canvas itself
 	})
 
 	document.Call("addEventListener", "mousedown", mousedown_callback)
