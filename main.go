@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 	"syscall/js"
@@ -29,6 +30,29 @@ func init() {
 func main() {
 
 	game := new(Game)
+
+	// ---------------------------------------------------------------------
+
+	keydown_callback := js.NewCallback(func(args []js.Value) {
+		e := args[0]
+		ascii := e.Get("which").Int()
+		fmt.Printf("Key down: %d (%v)\n", ascii, string(ascii))
+	})
+
+	document.Call("addEventListener", "keydown", keydown_callback)
+
+	// ---------------------------------------------------------------------
+
+	mousedown_callback := js.NewCallback(func(args []js.Value) {
+		e := args[0]
+		x := e.Get("clientX").Float()
+		y := e.Get("clientY").Float()
+		fmt.Printf("Mouse click at %v, %v\n", x, y)
+	})
+
+	document.Call("addEventListener", "mousedown", mousedown_callback)
+
+	// ---------------------------------------------------------------------
 
 	var main_callback js.Callback
 
