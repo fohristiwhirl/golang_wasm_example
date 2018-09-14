@@ -1,12 +1,8 @@
 # golang_wasm_example
 
-To compile:
+This is, sadly, much slower than a pure JS version...
 
-* Set env variable GOOS to `js`
-* Set env variable GOARCH to `wasm`
-* Build as `main.wasm`
-
-In Windows Powershell one can do:
+Compilation (for Windows):
 
 ```
 $env:GOOS = 'js'
