@@ -8,15 +8,13 @@ import (
 	"time"
 )
 
-const (
-	WIDTH = 1000
-	HEIGHT = 800
-)
-
 var (
 	document	js.Value
 	canvas		js.Value
 	context		js.Value
+
+	width		float64
+	height		float64
 )
 
 func init() {
@@ -57,6 +55,7 @@ func main() {
 	var main_callback js.Callback
 
 	main_callback = js.NewCallback(func(args []js.Value) {
+		update_width_height()
 		game.Iterate()
 		game.Draw(args)
 		js.Global().Call("requestAnimationFrame", main_callback)
@@ -82,6 +81,17 @@ func frect(x1, y1, x2, y2 int) {
 	if x2 < x1 { x1, x2 = x2, x1 }
 	if y2 < y1 { y1, y2 = y2, y1 }
 	context.Call("fillRect", x1, y1, x2 - x1, y2 - y1)
+}
+
+func update_width_height() {
+	new_width := js.Global().Get("innerWidth").Float()		// js.Global() gets us the window object, I think
+	new_height := js.Global().Get("innerHeight").Float()
+	if new_width != width || new_height != height {
+		width, height = new_width, new_height
+		canvas.Call("setAttribute", "width", width)
+		canvas.Call("setAttribute", "height", height)
+		fmt.Printf("Canvas resized to %d * %d\n", int(width), int(height))
+	}
 }
 
 // -------------------------------------------------------------------------
@@ -160,13 +170,13 @@ func (d *Dood) Move() {
     if (x < MARGIN) {
         speedx += rand.Float64() * 2
     }
-    if (x >= WIDTH - MARGIN) {
+    if (x >= width - MARGIN) {
         speedx -= rand.Float64() * 2
     }
     if (y < MARGIN) {
         speedy += rand.Float64() * 2
     }
-    if (y >= HEIGHT - MARGIN) {
+    if (y >= height - MARGIN) {
         speedy -= rand.Float64() * 2
     }
 
@@ -190,7 +200,7 @@ func (d *Dood) Move() {
 func (self *Game) Draw(args []js.Value) {
 
 	context.Set("fillStyle", "rgb(0,0,0)")
-	frect(0, 0, WIDTH, HEIGHT)
+	frect(0, 0, int(width), int(height))
 
 	context.Set("fillStyle", "rgb(0,255,0)")
 	for _, beast := range self.beasts {
@@ -216,8 +226,8 @@ func (self *Game) Init() {
 
 	for i := 0 ; i < QUEENS ; i++ {
 		self.queens = append(self.queens, &Dood{
-											x: rand.Float64() * WIDTH,
-											y: rand.Float64() * HEIGHT,
+											x: rand.Float64() * width,
+											y: rand.Float64() * height,
 											species: QUEEN,
 											game: self,
 		})
@@ -225,8 +235,8 @@ func (self *Game) Init() {
 
 	for i := 0 ; i < BEASTS ; i++ {
 		self.beasts = append(self.beasts, &Dood{
-											x: rand.Float64() * WIDTH,
-											y: rand.Float64() * HEIGHT,
+											x: rand.Float64() * width,
+											y: rand.Float64() * height,
 											species: BEAST,
 											game: self,
 		})
