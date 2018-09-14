@@ -98,16 +98,15 @@ func update_width_height() {
 // Game logic
 
 const (
-    QUEENS = 8
-    BEASTS = 1900
+    QUEENS = 20
+    BEASTS = 1500
     BEAST_MAX_SPEED = 7
-    QUEEN_MAX_SPEED = 5.5
-    BEAST_ACCEL_MODIFIER = 0.55
+    QUEEN_MAX_SPEED = 5.6
+    BEAST_ACCEL_MODIFIER = 0.56
     QUEEN_ACCEL_MODIFIER = 0.7
-    QUEEN_TURN_PROB = 0.001
-    BEAST_TURN_PROB = 0.002
-    AVOID_STRENGTH = 4000
-    MAX_PLAYER_SPEED = 10
+    QUEEN_TURN_PROB = 0.0015
+    BEAST_TURN_PROB = 0.0025
+    AVOID_STRENGTH = 4200		// For avoiding player, when present
     MARGIN = 50
 )
 
