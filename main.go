@@ -35,6 +35,10 @@ func main() {
 		e := args[0]
 		ascii := e.Get("which").Int()
 		fmt.Printf("Key down: %d (%v)\n", ascii, string(ascii))
+
+		if string(ascii) == "S" {
+			game.Shake()
+		}
 	})
 
 	document.Call("addEventListener", "keydown", keydown_callback)
@@ -218,6 +222,12 @@ func (self *Game) Iterate() {
 
 	for _, beast := range self.beasts {
 		beast.Move()
+	}
+}
+
+func (self *Game) Shake() {
+	for _, queen := range self.queens {
+		queen.target = nil
 	}
 }
 
